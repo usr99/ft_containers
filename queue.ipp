@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 22:02:49 by mamartin          #+#    #+#             */
-/*   Updated: 2021/06/07 22:06:23 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/06/09 19:52:36 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 namespace ft
 {
-	// member functions
-
 	template <class T, class container>
 	queue<T, container>::queue(const container_type &ctnr)
 	{
@@ -67,44 +65,6 @@ namespace ft
 	template <class T, class container>
 	void queue<T, container>::pop()
 	{
-		this->_cntr.pop_back();
-	}
-
-	// non member operators
-
-	template <class T, class Container>
-	bool operator==(const queue<T, Container> &lhs, const queue<T, Container> &rhs)
-	{
-		return (lhs.cntr == rhs.cntr);
-	}
-
-	template <class T, class Container>
-	bool operator!=(const queue<T, Container> &lhs, const queue<T, Container> &rhs)
-	{
-		return (lhs.cntr != rhs.cntr);
-	}
-
-	template <class T, class Container>
-	bool operator<(const queue<T, Container> &lhs, const queue<T, Container> &rhs)
-	{
-		return (lhs.cntr < rhs.cntr);
-	}
-
-	template <class T, class Container>
-	bool operator<=(const queue<T, Container> &lhs, const queue<T, Container> &rhs)
-	{
-		return (lhs.cntr <= rhs.cntr);
-	}
-
-	template <class T, class Container>
-	bool operator>(const queue<T, Container> &lhs, const queue<T, Container> &rhs)
-	{
-		return (lhs.cntr > rhs.cntr);
-	}
-
-	template <class T, class Container>
-	bool operator>=(const queue<T, Container> &lhs, const queue<T, Container> &rhs)
-	{
-		return (lhs.cntr >= rhs.cntr);
+		this->_cntr.pop_front();
 	}
 }

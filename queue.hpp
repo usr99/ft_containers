@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 23:59:21 by user42            #+#    #+#             */
-/*   Updated: 2021/06/07 22:03:08 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/06/09 19:17:54 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@ namespace ft
 		private:
 
 			container_type 		_cntr;
+
+		// non member operators
+		friend bool operator==(const queue<T, container> &lhs, const queue<T, container> &rhs)	{ return (lhs._cntr == rhs._cntr); }
+		friend bool operator!=(const queue<T, container> &lhs, const queue<T, container> &rhs)	{ return (lhs._cntr != rhs._cntr); }
+		friend bool operator<(const queue<T, container> &lhs, const queue<T, container> &rhs)	{ return (lhs._cntr < rhs._cntr); }
+		friend bool operator<=(const queue<T, container> &lhs, const queue<T, container> &rhs)	{ return (lhs._cntr <= rhs._cntr); }
+		friend bool operator>(const queue<T, container> &lhs, const queue<T, container> &rhs)	{ return (lhs._cntr > rhs._cntr); }
+		friend bool operator>=(const queue<T, container> &lhs, const queue<T, container> &rhs)	{ return (lhs._cntr >= rhs._cntr); }
 	};
 }
 
