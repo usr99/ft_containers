@@ -6,42 +6,44 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 09:44:02 by mamartin          #+#    #+#             */
-/*   Updated: 2021/06/15 12:46:55 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/06/29 17:48:22 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIST_HPP
 # define LIST_HPP
 
-# define <iterator>
+# include <memory>
+# include "listIterator.hpp"
+# include "../utils/node.hpp"
+# include "../utils/sort.hpp"
 
 namespace ft
 {
-	template <class T, class Alloc = allocator<T>>
+	template <class T, class Alloc = std::allocator<T> >
 	class list
 	{
 		public:
-
- 			// member types
-			typedef T															value_type;
-			typedef Alloc														allocator_type;
-			typedef allocator_type::reference									reference;
-			typedef allocator_type::const_reference								const_reference;
-			typedef allocator_type::pointer										pointer;
-			typedef allocator_type::const_pointer								const_pointer;
-			typedef std::iterator<bidirectional_iterator_tag, value_type>		iterator;
-			typedef std::iterator<bidirectional_iterator_tag, const value_type>	const_iterator;
-			typedef std::reverse_iterator<iterator>								reverse_iterator;
-			typedef std::reverse_iterator<const_iterator>						const_reverse_iterator;
-			typedef std::iterator_traits<iterator>::difference_type				difference_type;
-			typedef size_t														size_type;
+			// member types
+			typedef T													value_type;
+			typedef Alloc												allocator_type;
+			typedef typename allocator_type::reference					reference;
+			typedef typename allocator_type::const_reference			const_reference;
+			typedef typename allocator_type::pointer					pointer;
+			typedef typename allocator_type::const_pointer				const_pointer;
+			typedef listIterator<value_type>							iterator;
+			typedef const_listIterator<value_type>						const_iterator;
+			typedef reverse_iterator<const_iterator>					const_reverse_iterator;
+			typedef reverse_iterator<iterator>							reverse_iterator;
+			typedef typename iterator_traits<iterator>::difference_type	difference_type;
+			typedef size_t												size_type;
 
 			// constructors
-			list(const allocator_type &alloc = allocator_type());
-			list(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type());
+			explicit list(const allocator_type &alloc = allocator_type());														// default
+			explicit list(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type());	// fill
 			template <class InputIterator>
-				list(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());
-			list(const list &x);
+				list(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());					// range
+			list(const list &x);																								// copy
 
 			~list(); // destructor
 
@@ -102,16 +104,61 @@ namespace ft
 			// member operators
 			list&					operator=(const list &x);
 
-		private:
+		//private:
+
+			typedef listNode<value_type>									Node;
+			typedef typename allocator_type::template rebind<Node>::other	node_alloc;
+
+			template <class Compare>
+				Node*				_mergeSort(Node *first, size_type n, Compare comp);
+			template <class Compare>
+				Node*				_merge(Node *first, size_type size1, Node *second, size_type size2, Compare comp);
+
+			Node					*_list;
+			allocator_type			_alloc;
+			size_type				_size;
 
 		// non member overloads
-		friend void	swap(list<T, Alloc> &x, list<T, Alloc> &y);
-		friend bool	operator==(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs);
-		friend bool	operator!=(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs);
-		friend bool	operator<(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs);
-		friend bool	operator<=(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs);
-		friend bool	operator>(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs);
-		friend bool	operator>=(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs);
+		friend void	swap(list<T, Alloc> &x, list<T, Alloc> &y)
+		{
+			x.swap(y);
+		}
+
+		// lhs == rhs
+		friend bool	operator==(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs)
+		{
+			return (ft::equal<T>::compare(lhs, rhs));
+		}
+
+		// !(lhs == rhs)
+		friend bool	operator!=(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs)
+		{
+			return (!ft::equal<T>::compare(lhs, rhs));
+		}
+
+		// lhs < rhs
+		friend bool	operator<(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs)
+		{
+			return (ft::less_than<T>::compare(lhs, rhs));
+		}
+
+		// !(rhs < lhs)
+		friend bool	operator<=(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs)
+		{
+			return (!ft::less_than<T>::compare(rhs, lhs));
+		}
+		
+		// rhs < lhs
+		friend bool	operator>(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs)
+		{
+			return (ft::less_than<T>::compare(rhs, lhs));
+		}
+		
+		// !(lhs < rhs)
+		friend bool	operator>=(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs)
+		{
+			return (!ft::less_than<T>::compare(lhs, rhs));
+		}
 	};
 }
 

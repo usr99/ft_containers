@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 16:58:33 by mamartin          #+#    #+#             */
-/*   Updated: 2021/06/09 19:45:31 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/06/28 23:03:42 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 # include <sstream>
 # include <queue>
 # include <list>
-# include "../queue.hpp"
+# include "../containers/queue/queue.hpp"
 
 namespace queue
 {
-	template <template<class U, class = std::deque<U>> class T>
+	template <template<class U, class = std::deque<U> > class T>
 	std::string constructor()
 	{
 		std::stringstream		ss;
@@ -32,8 +32,8 @@ namespace queue
 		T<int>					first;
 		T<int>					second(mydeck);
 		// construct from list
-		T<int, std::list<int>>	third; 
-		T<int, std::list<int>>	fourth(mylist);
+		T<int, std::list<int> >	third; 
+		T<int, std::list<int> >	fourth(mylist);
 
 		// put stacks sizes in string stream
 		ss << first.size();
@@ -44,7 +44,7 @@ namespace queue
 		return (ss.str()); // return output
 	}
 
-	template <template <class U, class = std::deque<U>> class T>
+	template <template <class U, class = std::deque<U> > class T>
 	std::string empty()
 	{
 		std::stringstream	ss;
@@ -62,7 +62,7 @@ namespace queue
 		return (ss.str());
 	}
 
-	template <template <class U, class = std::deque<U>> class T>
+	template <template <class U, class = std::deque<U> > class T>
 	std::string size()
 	{
 		std::stringstream	ss;
@@ -77,7 +77,7 @@ namespace queue
 		return (ss.str());
 	}
 
-	template <template <class U, class = std::deque<U>> class T>
+	template <template <class U, class = std::deque<U> > class T>
 	std::string front()
 	{
 		std::stringstream	ss;
@@ -91,7 +91,7 @@ namespace queue
 		return (ss.str());
 	}
 
-	template <template <class U, class = std::deque<U>> class T>
+	template <template <class U, class = std::deque<U> > class T>
 	std::string back()
 	{
 		std::stringstream	ss;
@@ -105,7 +105,7 @@ namespace queue
 		return (ss.str());
 	}
 
-	template <template <class U, class = std::deque<U>> class T>
+	template <template <class U, class = std::deque<U> > class T>
 	std::string push_pop()
 	{
 		std::stringstream	ss;
@@ -121,12 +121,12 @@ namespace queue
 		return (ss.str());
 	}
 
-	template <template <class U, class = std::deque<U>> class T>
+	template <template <class U, class = std::deque<U> > class T>
 	std::string operators()
 	{
 		std::stringstream							ss;
-		T<std::string, std::vector<std::string>>	queue1;
-		T<std::string, std::vector<std::string>>	queue2;
+		T<std::string, std::vector<std::string> >	queue1;
+		T<std::string, std::vector<std::string> >	queue2;
 
 		// push same string in both queues
 		for (int i = 0 ; i < 10 ; i++)

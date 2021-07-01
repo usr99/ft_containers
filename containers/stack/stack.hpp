@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 23:59:21 by user42            #+#    #+#             */
-/*   Updated: 2021/06/09 19:15:12 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/06/28 23:04:04 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 namespace ft
 {
-	template <class T, class container = std::deque<T>>
+	template <class T, class container = std::deque<T> >
 	class stack
 	{
 		public:
@@ -27,7 +27,7 @@ namespace ft
 			typedef container	container_type;
 			typedef size_t		size_type;
 
-			stack(const container_type &ctnr = container_type()); // constructor
+			explicit stack(const container_type &ctnr = container_type()); // constructor
 			
 			// member functions
 			bool				empty() const;
