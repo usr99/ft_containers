@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 18:21:18 by mamartin          #+#    #+#             */
-/*   Updated: 2021/06/29 19:41:26 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/07/01 14:35:20 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ namespace ft
 		tmp._ptr += n;
 		return (tmp);
 	}
-	
+
 	template <class T>
 	vectorIterator<T>&
 	vectorIterator<T>::operator+=(difference_type n)
@@ -99,6 +99,13 @@ namespace ft
 		
 		tmp._ptr -= n;
 		return (tmp);
+	}
+
+	template <class T>
+	typename vectorIterator<T>::difference_type
+	vectorIterator<T>::operator-(const vectorIterator& rhs) const
+	{
+		return (_ptr - rhs._ptr);
 	}
 
 	template <class T>

@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 16:18:16 by mamartin          #+#    #+#             */
-/*   Updated: 2021/06/30 03:11:13 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/07/05 18:04:10 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <memory>
 # include <stdexcept>
+
+# include "../utils/sort.hpp"
 # include "vectorIterator.hpp"
 
 namespace ft
@@ -37,27 +39,30 @@ namespace ft
 			// const reverse
 			typedef size_t										size_type;
 
-			// constructors
+			// default constructor
 			explicit vector(const allocator_type& alloc = allocator_type()) :
 				_array(NULL), _size(0), _size_available(0), _alloc(alloc) {}
 			
+			// fill constructor
 			explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) :
 				_array(NULL), _size(0), _size_available(0), _alloc(alloc)
 			{
 				insert(begin(), n, val);
 			}
 			
+			// range constructor
 			template <class InputIterator>
-			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
+			vector(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) :
 				_array(NULL), _size(0), _size_available(0), _alloc(alloc)
 			{
 				insert(begin(), first, last);
 			}
 
-			vector(const vector& x)
-				_array(NULL), _size(0), _size_available(0), _alloc(x.alloc)
+			// copy constructor
+			vector(const vector& x) :
+				_array(NULL), _size(0), _size_available(0), _alloc(x._alloc)
 			{
-				assign(begin(), x.begin(), x.end());
+				*this = x;
 			}
 			
 			// destructor
@@ -67,7 +72,11 @@ namespace ft
 				_alloc.deallocate(_array, _size_available);
 			}
 
-			// member functions
+			vector& operator=(const vector& x)
+			{
+				assign(x.begin(), x.end());
+				return (*this);
+			}
 
 			iterator begin()
 			{
@@ -134,7 +143,7 @@ namespace ft
 
 					tmp = _alloc.allocate(n);
 					for (size_type i = 0 ; i < _size ; i++)
-						tmp[i] = _array[i];
+						_alloc.construct(tmp + i, _array[i]);
 
 					_alloc.deallocate(_array, _size_available);
 					_array = tmp;
@@ -211,24 +220,33 @@ namespace ft
 
 			iterator insert(iterator position, const value_type& val)
 			{
-				iterator	it;
+				typename iterator::difference_type	i = end() - position;
 
 				if (_size == _size_available)
 					reserve(_size_available * 2 + 1);
 
-				for (it = end() ; it != position ; --it)
-					*it = *(it - 1);
+				iterator	it = end();
 
-				*it = val;
+				while (i > 0)
+				{
+					*it = *(it - 1);
+					it--;
+					i--;
+				}
+
+				_alloc.construct(_array + (it - begin()), val);
 				_size++;
 				return (it);
 			}
 
 			void insert(iterator position, size_type n, const value_type& val)
 			{
+				typename iterator::difference_type	i = position - begin();
+				
 				if (_size == _size_available)
 					reserve(_size_available * 2 + n);
 
+				position = begin() + i;
 				for (size_type i = 0 ; i < n ; i++)
 					position = insert(position, val);
 			}
@@ -245,7 +263,8 @@ namespace ft
 
 			iterator erase(iterator position)
 			{
-				for (it = position ; it != end() ; ++it)
+				_alloc.destroy(_array + (position - begin()));
+				for (iterator it = position ; it != end() - 1 ; ++it)
 					*it = *(it + 1);
 				_size--;
 				return (position);
@@ -253,11 +272,17 @@ namespace ft
 
 			iterator erase(iterator first, iterator last)
 			{
-				iterator::difference_type	i;
+				typename iterator::difference_type	i;
 
 				for (i = last - first ; i > 0 ; i--)
 					first = erase(first);
 				return (first);
+			}
+
+			void swap(vector& x)
+			{
+				// swap hein
+				(void)x;
 			}
 
 			void clear()
@@ -266,7 +291,10 @@ namespace ft
 					pop_back();
 			}
 
-			// member operators
+			allocator_type get_allocator() const
+			{
+				return (_alloc);
+			}
 
 		private:
 
@@ -275,6 +303,54 @@ namespace ft
 			size_type		_size_available;
 			allocator_type	_alloc;
 	};
+
+	// lhs == rhs
+	template <class T, class Alloc>
+	bool operator==(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+	}
+
+	// !(lhs == rhs)
+	template <class T, class Alloc>
+	bool operator!=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (!ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+	}
+
+	// lhs < rhs
+	template <class T, class Alloc>
+	bool operator<(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
+
+	// !(rhs < lhs)
+	template <class T, class Alloc>
+	bool operator<=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (!ft::lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end()));
+	}
+	
+	// rhs < lhs		
+	template <class T, class Alloc>
+	bool operator>(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (ft::lexicographical_compare(rhs.begin(), rhs.end(), lhs.begin(), lhs.end()));
+	}
+
+	// !(lhs < rhs)
+	template <class T, class Alloc>
+	bool operator>=(const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (!ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	}
+
+	template <class T, class Alloc>
+  	void swap(vector<T,Alloc>& x, vector<T,Alloc>& y)
+	{
+		x.swap(y);
+	}
 }
 
 #endif

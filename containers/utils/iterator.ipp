@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 23:36:03 by mamartin          #+#    #+#             */
-/*   Updated: 2021/06/28 23:20:14 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/07/01 18:15:59 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ namespace ft
 	reverse_iterator<Iterator>
 	reverse_iterator<Iterator>::operator+(difference_type n) const
 	{
-		(void)n;
+		reverse_iterator	tmp(*this);
+
+		tmp._it = tmp._it + n;
+		return (tmp);
 	}
 
 	template <class Iterator>
@@ -71,14 +74,18 @@ namespace ft
 	reverse_iterator<Iterator>&
 	reverse_iterator<Iterator>::operator+=(difference_type n)
 	{
-		(void)n;
+		*this = operator+(n);
+		return (*this);
 	}
 
 	template <class Iterator>
 	reverse_iterator<Iterator>
 	reverse_iterator<Iterator>::operator-(difference_type n) const
 	{
-		(void)n;
+		reverse_iterator	tmp(*this);
+		
+		tmp._it = tmp._it - n;
+		return (tmp);
 	}
 
 	template <class Iterator>
@@ -104,20 +111,21 @@ namespace ft
 	reverse_iterator<Iterator>&
 	reverse_iterator<Iterator>::operator-=(difference_type n)
 	{
-		(void)n;
+		*this = operator-(n);
+		return (*this);
 	}
 
 	template <class Iterator>
 	typename reverse_iterator<Iterator>::pointer
 	reverse_iterator<Iterator>::operator->() const
 	{
-
+		return (_it.operator->());
 	}
 
 	template <class Iterator>
 	typename reverse_iterator<Iterator>::reference
 	reverse_iterator<Iterator>::operator[](difference_type n) const
 	{
-		(void)n;
+		return (_it[n]);
 	}
 }

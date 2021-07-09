@@ -6,135 +6,209 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 00:16:07 by user42            #+#    #+#             */
-/*   Updated: 2021/06/30 00:19:50 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/07/09 02:05:48 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "list_tester.hpp"
-#include "stack_tester.hpp"
-#include "queue_tester.hpp"
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <stack>
 
-#include "../containers/list/list.hpp"
-#include "../containers/vector/vector.hpp"
+#include "test_stack.hpp"
 
-void	test_list();
-void	test_stack();
-void	test_queue();
-void	test(const std::string &ft, const std::string &std);
 
-#define TMP	ft
+#if defined(TESTER)
+
+# if defined(FT)
+#  define CONTAINER ft
+	std::string		filename("ft");
+# else
+#  define CONTAINER std
+	std::string		filename("stl");
+# endif
 
 int main()
 {
-	TMP::vector<int>			vect((size_t)5, 100);
-	TMP::vector<int>::iterator	it;
+	std::ofstream	output(filename.append(".out").c_str());
+	std::ofstream	time(filename.append(".time").c_str());
 
-	for (int i = 0 ; i < vect.size() ; i++)
-		std::cout << vect[i] << std::endl;
+	test_vector<CONTAINER::vector>(output, time);
+	//test_map<CONTAINER::map>(output, time);
+	stack::test<CONTAINER::stack>(output, time);
 
-	//test_list();
-	//test_stack();
-	//test_queue();
+	output.close();
+	time.close();
+
 	return (0);
 }
 
-void test_list()
-{
-	std::cout << "\033[35;01m" << "--- ft::list" << "\033[0m" << std::endl;
-	std::cout << "Constructor :\t";
-	test(list::constructor<ft::list>(), list::constructor<std::list>()); // constructor
-	std::cout << "begin & end :\t";
-	test(list::begin_end<ft::list>(), list::begin_end<std::list>()); // begin() and end()
-	std::cout << "rbegin & rend :\t";
-	test(list::rbegin_rend<ft::list>(), list::rbegin_rend<std::list>()); // rbegin() and rend()
-	std::cout << "empty :\t\t";
-	test(list::empty<ft::list>(), list::empty<std::list>()); // empty()
-	std::cout << "size :\t\t";
-	test(list::size<ft::list>(), list::size<std::list>()); // size()
-	std::cout << "max_size :\t";
-	test(list::max_size<ft::list>(), list::max_size<std::list>()); // max_size()
-	std::cout << "front :\t\t";
-	test(list::front<ft::list>(), list::front<std::list>()); // front()
-	std::cout << "back :\t\t";
-	test(list::back<ft::list>(), list::back<std::list>()); // back()
-	std::cout << "assign :\t";
-	test(list::assign<ft::list>(), list::assign<std::list>()); // assign()
-	std::cout << "push&pop front :";
-	test(list::push_pop_front<ft::list>(), list::push_pop_front<std::list>()); // push_front and pop_front()
-	std::cout << "push&pop back :\t";
-	test(list::push_pop_back<ft::list>(), list::push_pop_back<std::list>()); // push_back and pop_back()
-	std::cout << "insert :\t";
-	test(list::insert<ft::list>(), list::insert<std::list>()); // insert()
-	std::cout << "erase :\t\t";
-	test(list::erase<ft::list>(), list::erase<std::list>()); // erase()
-	std::cout << "swap :\t\t";
-	test(list::swap<ft::list>(), list::swap<std::list>()); // swap()
-	std::cout << "resize :\t";
-	test(list::resize<ft::list>(), list::resize<std::list>()); // resize()
-	std::cout << "clear :\t\t";
-	test(list::clear<ft::list>(), list::clear<std::list>()); // clear()
-	std::cout << "splice :\t";
-	test(list::splice<ft::list>(), list::splice<std::list>()); // splice()
-	std::cout << "remove :\t";
-	test(list::remove<ft::list>(), list::remove<std::list>()); // remove()
-	std::cout << "remove_if :\t";
-	test(list::remove_if<ft::list>(), list::remove_if<std::list>()); // remove_if()
-	std::cout << "unique :\t";
-	test(list::unique<ft::list>(), list::unique<std::list>()); // unique()
-	std::cout << "merge :\t\t";
-	test(list::merge<ft::list>(), list::merge<std::list>()); // merge()
-	std::cout << "sort :\t\t";
-	test(list::sort<ft::list>(), list::sort<std::list>()); // sort()
-	std::cout << "reverse :\t";
-	test(list::reverse<ft::list>(), list::reverse<std::list>()); // reverse()
-	std::cout << "operators :\t";
-	test(list::operators<ft::list>(), list::operators<std::list>()); // operator=()
-}
+#elif defined(CHECKER)
 
-void test_stack()
-{
-	std::cout << "\033[35;01m" << "--- ft::stack" << "\033[0m" << std::endl;
-	std::cout << "Constructor :\t";
-	test(stack::constructor<ft::stack>(), stack::constructor<std::stack>()); // constructor
-	std::cout << "empty :\t\t";
-	test(stack::empty<ft::stack>(), stack::empty<std::stack>()); // empty()
-	std::cout << "size :\t\t";
-	test(stack::size<ft::stack>(), stack::size<std::stack>()); // size()
-	std::cout << "top :\t\t";
-	test(stack::top<ft::stack>(), stack::top<std::stack>()); // top ()
-	std::cout << "push & pop :\t";
-	test(stack::push_pop<ft::stack>(), stack::push_pop<std::stack>()); // push() and pop()
-	std::cout << "operators :\t";
-	test(stack::operators<ft::stack>(), stack::operators<std::stack>()); // non members operators
-}
+# define FT			0
+# define STL		1
+# define OUTPUT		0
+# define TIME		1
+# define B_PURPLE	"\033[35;01m"	// bold
+# define BOLD		"\033[01m"
+# define YELLOW		"\033[33m"
+# define B_GREEN	"\033[32;01m"	// bold
+# define B_RED		"\033[31;01m"	// bold
+# define RESET		"\033[00m"
 
-void test_queue()
-{
-	std::cout << "\033[35;01m" << "--- ft::queue" << "\033[0m" << std::endl;
-	std::cout << "Constructor :\t";
-	test(queue::constructor<ft::queue>(), queue::constructor<std::queue>()); // constructor
-	std::cout << "empty :\t\t";
-	test(queue::empty<ft::queue>(), queue::empty<std::queue>()); // empty()
-	std::cout << "size :\t\t";
-	test(queue::size<ft::queue>(), queue::size<std::queue>()); // size()
-	std::cout << "front :\t\t";
-	test(queue::front<ft::queue>(), queue::front<std::queue>()); // front()
-	std::cout << "back :\t\t";
-	test(queue::back<ft::queue>(), queue::back<std::queue>()); // back()
-	std::cout << "push & pop :\t";
-	test(queue::push_pop<ft::queue>(), queue::push_pop<std::queue>()); // push() and pop()
-	std::cout << "operators :\t";
-	test(queue::operators<ft::queue>(), queue::operators<std::queue>()); // non members operators
-}
+// prototypes
+void	print_container_name(std::string cntr_name);
+void	print_function_name(std::string func_name, std::ifstream time_fs[2]);
+void	print_result(std::string ft, std::string stl);
+void	print_separator(char sep, int size);
+float	compare_time(std::ifstream time_fs[2]);
+float	get_avg_time(std::ifstream& file);
 
-void test(const std::string &ft, const std::string &std)
+int	main()
 {
-	if (ft.compare(std) == 0) // no diff print OK
-		std::cout << "[" << "\033[32m" << "OK" << "\033[0m" << "]" << std::endl;
-	else // print both strings to compare
+	std::ifstream	files[2][2];	// file streams array
+
+	// open output files from tester
+	files[OUTPUT][FT].open("ft.out");
+	files[OUTPUT][STL].open("stl.out");
+	files[TIME][FT].open("ft.out.time");
+	files[TIME][STL].open("stl.out.time");
+
+	while (!files[OUTPUT][STL].eof()) // read stl output
 	{
-		std::cout << "[" << "\033[31m" << "KO" << "\033[0m" << "]" << std::endl;
-		std::cout << "\033[33m" << "ft:  " << ft << "\033[0m" << std::endl;
-		std::cout << "\033[33m" << "std: " << std << "\033[0m" << std::endl;
+		std::string	str[2][2];
+		size_t		ret;
+
+		// read a line from output files
+		std::getline(files[OUTPUT][FT], ft);
+		std::getline(files[OUTPUT][STL], stl);
+
+		if ((ret = stl.find("= ", 0)) != std::string::npos) // character '=' is present
+		{
+			// read a line from output files
+			std::getline(files[TIME][FT], ft_time);
+			std::getline(files[TIME][STL], stl_time);
+
+			if (ret == 0) // only one '=' means it is a function name
+				print_function_name(stl, files[TIME]);
+			else // more means it's a container
+				print_container_name(stl);
+		}
+		else // no '=' means it's the result of a test
+			print_result(ft, stl);
+	}
+
+	// close files
+	files[OUTPUT][FT].close();
+	files[OUTPUT][STL].close();
+	files[TIME][FT].close();
+	files[TIME][STL].close();
+
+	return (0);
+}
+
+/*
+** print container name in purple
+** add a line with character '=' for aesthetic purpose
+*/
+
+void print_container_name(std::string name)
+{
+	std::cout << B_PURPLE;
+	std::cout << std::endl << "=== " << name.substr(4) << " ";
+	for (size_t i = 0 ; i < 80 - name.length() - 1 ; i++)
+		std::cout << "=";
+	std::cout << RESET << std::endl;	
+}
+
+/*
+** print function name (duh)
+** add separator lines before and after functione name
+** also print the average ratio of time complexity between ft containers
+** and official ones
+*/
+
+void print_function_name(std::string func_name, std::ifstream time_fs[2])
+{
+	float diff = compare_time(time_fs);
+
+	print_separator('-', 80);
+	std::cout << BOLD << func_name.substr(2) << " ";
+	if (diff <= 20.f)
+		std::cout << B_GREEN << "x" << diff << RESET << std::endl;
+	else
+		std::cout << B_RED << "x" << diff << RESET << std::endl;
+	print_separator('-', 80);
+}
+
+/*
+** print "size" characters and a newline
+*/
+
+void print_separator(char sep, int size)
+{
+	for (int i = 0 ; i < size ; i++)
+		std::cout << sep;
+	std::cout << std::endl;
+}
+
+/*
+** compare results
+** if equals prints OK
+** else prints KO and show outputs
+*/
+
+void print_result(std::string ft, std::string stl)
+{
+	if (stl.compare(ft) == 0)
+		std::cout << B_GREEN << "[OK]" << RESET << std::endl;
+	else
+	{
+		std::cout << B_RED << "[KO]" << std::endl;
+		std::cout << YELLOW << "ft:\t" << ft << std::endl;
+		std::cout << "stl:\t" << stl << RESET << std::endl;
 	}
 }
+
+/*
+** print time complexity factor
+** this factor is the number of times ft container is slower than stl one
+** for the same task
+*/
+
+float compare_time(std::ifstream time_fs[2])
+{
+	float	time[2];
+
+	time[FT] = get_avg_time(time_fs[FT]);
+	time[STL] = get_avg_time(time_fs[STL]);
+
+	if (time[STL] == time[FT])
+		return (1);
+	else if (time[STL] == 0)
+		return (time[FT]);
+	return (time[FT] / time[STL]);
+}
+
+/*
+** read file until it reaches an empty line
+** return average execution time from several function calls
+*/
+
+float get_avg_time(std::ifstream& file)
+{
+	std::string	str;
+	float		i 		= 0;
+	float		time	= 0;
+
+	do
+	{
+		std::getline(file, str);
+		time += atof(str.data());
+		i++;
+	} while (str.length() != 0);
+	
+	return (time / i);
+}
+
+#endif

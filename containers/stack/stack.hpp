@@ -6,18 +6,18 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 23:59:21 by user42            #+#    #+#             */
-/*   Updated: 2021/06/28 23:04:04 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/07/01 13:45:06 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STACK_HPP
 # define STACK_HPP
 
-# include <deque>
+# include "../vector/vector.hpp"
 
 namespace ft
 {
-	template <class T, class container = std::deque<T> >
+	template <class T, class container = ft::vector<T> >
 	class stack
 	{
 		public:

@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 02:09:52 by mamartin          #+#    #+#             */
-/*   Updated: 2021/06/28 23:38:57 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/07/01 20:23:44 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,56 +17,64 @@
 
 namespace ft
 {
-	template <class value_type>
-	struct equal
+	template <class T>
+	class compare
 	{
-		bool	operator()(const value_type &lhs, const value_type &rhs) { return (lhs == rhs); }
-
-		template <class T>
-		static bool	compare(const T &lhs, const T &rhs)
-		{
-			typename T::const_iterator	lit = lhs.begin();
-			typename T::const_iterator	rit = rhs.begin();
+		static bool equal(const T& lhs, const T& rhs)		{ return (lhs == rhs); }
+		static bool less_than(const T& lhs, const T& rhs)	{ return (lhs < rhs); }
+	};
 	
-			// check if sizes differ
-			if (lhs.size() != rhs.size())
+	template <class InputIterator1, class InputIterator2>
+	bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
+	{
+		while (first1 != last1)
+		{
+			if (*first1 != *first2)
 				return (false);
-	
-			// sequentially compare each element
-			while (lit != lhs.end() && rit != rhs.end())
-			{
-				if (*lit != *rit) // lhs != rhs
-					return (false);
-				lit++;
-				rit++;
-			}
-			return (true); // lhs == rhs
+			first1++; first2++;
 		}
-	};
+		return (true);
+	}
 
-	template <class value_type>
-	struct less_than
+	template <class InputIterator1, class InputIterator2, class BinaryPredicate>
+	bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate pred)
 	{
-		bool	operator()(const value_type &lhs, const value_type &rhs) { return (lhs < rhs); }
-
-		template <class T>
-		static bool	compare(const T &lhs, const T &rhs)
+		while (first1 != last1)
 		{
-			typename T::const_iterator	lit = lhs.begin();
-			typename T::const_iterator	rit = rhs.begin();
-	
-			while (lit != lhs.end())
-			{
-				if (rit == rhs.end() || *rit < *lit)
-					return (false); // rhs < lhs
-				else if (*lit < *rit)
-					return (true); // lhs < rhs
-				lit++;
-				rit++;
-			}
-			return (rit != rhs.end()); // compare sizes
+			if (!pred(*first1, *first2))
+				return (false);
+			first1++; first2++;
 		}
-	};
+		return (true);
+	}
+
+	template <class InputIterator1, class InputIterator2>
+	bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2)
+	{
+		while (first1 != last1)
+		{
+			if (first2 == last2 || *first2 < *first1)
+				return (false);
+			else if (*first1 < *first2)
+				return (true);
+			first1++; first2++;
+		}
+		return (first2 != last2); // compare sizes
+	}
+	
+	template <class InputIterator1, class InputIterator2, class Compare>
+	bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, Compare comp)
+	{
+		while (first1 != last1)
+		{
+			if (first2 == last2 || comp(*first2, *first1))
+				return (false);	// first2 < first1
+			else if (comp(*first1, *first2))
+				return (true);	// first1 < first2
+			first1++; first2++;
+		}
+		return (first2 != last2); // compare sizes
+	}
 }
 
 #endif

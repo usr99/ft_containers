@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 17:56:22 by mamartin          #+#    #+#             */
-/*   Updated: 2021/06/29 19:40:16 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/07/01 14:43:51 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ namespace ft
 			vectorIterator&			operator--();
 			vectorIterator			operator--(int n);
 			vectorIterator			operator-(difference_type n) const;
+			difference_type			operator-(const vectorIterator& rhs) const;
 			vectorIterator&			operator-=(difference_type n);
 			reference				operator*() const;
 			reference				operator[](difference_type n) const;
