@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 23:36:03 by mamartin          #+#    #+#             */
-/*   Updated: 2021/07/01 18:15:59 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/07/09 16:37:12 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,19 @@ namespace ft
 	reverse_iterator<Iterator>::operator[](difference_type n) const
 	{
 		return (_it[n]);
+	}
+
+	template <class Iterator>
+  	reverse_iterator<Iterator>
+	operator+(typename reverse_iterator<Iterator>::difference_type n, const reverse_iterator<Iterator>& rev_it)
+	{
+		return (rev_it + n);
+	}
+
+	template <class Iterator>
+	typename reverse_iterator<Iterator>::difference_type
+	operator-(const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)
+	{
+		return (rhs.base() - lhs.base());
 	}
 }

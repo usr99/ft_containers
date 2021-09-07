@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/18 16:35:45 by mamartin          #+#    #+#             */
-/*   Updated: 2021/06/19 18:30:37 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/07/09 16:27:19 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,6 @@ namespace ft
 		friend bool				operator<=(const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)	{ return (lhs._it >= rhs._it); }
 		friend bool				operator>(const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)		{ return (lhs._it < rhs._it); }
 		friend bool				operator>=(const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs)	{ return (lhs._it <= rhs._it); }
-
-  		//reverse_iterator<Iterator> operator+(typename reverse_iterator<Iterator>::difference_type n, const reverse_iterator<Iterator>& rev_it);
-		//typename reverse_iterator<Iterator>::difference_type operator-(const reverse_iterator<Iterator>& lhs, const reverse_iterator<Iterator>& rhs);
 	};
 }
 

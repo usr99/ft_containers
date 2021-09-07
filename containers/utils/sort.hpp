@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 02:09:52 by mamartin          #+#    #+#             */
-/*   Updated: 2021/07/01 20:23:44 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/08/31 19:17:06 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,33 @@
 namespace ft
 {
 	template <class T>
-	class compare
+	const T&
+	max(const T &a, const T &b)
 	{
-		static bool equal(const T& lhs, const T& rhs)		{ return (lhs == rhs); }
-		static bool less_than(const T& lhs, const T& rhs)	{ return (lhs < rhs); }
+		return ((a < b) ? b : a);
+	}
+
+	template <class T, class Compare>
+	const T&
+	max(const T &a, const T &b, Compare comp)
+	{
+		return (comp(a, b) ? b : a);
+	}
+
+	template <class Arg1, class Arg2, class Result>
+	struct binary_function
+	{
+		typedef Arg1	first_argument_type;
+		typedef Arg2	second_argument_type;
+		typedef Result	result_type;
 	};
-	
+
+	template <class T>
+	struct less : binary_function<T, T, bool>
+	{
+		bool operator()(const T& x, const T& y) const { return (x < y); }
+	};
+
 	template <class InputIterator1, class InputIterator2>
 	bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
 	{

@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 17:56:22 by mamartin          #+#    #+#             */
-/*   Updated: 2021/07/01 14:43:51 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/07/22 19:31:41 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ namespace ft
 			vectorIterator&			operator--();
 			vectorIterator			operator--(int n);
 			vectorIterator			operator-(difference_type n) const;
-			difference_type			operator-(const vectorIterator& rhs) const;
 			vectorIterator&			operator-=(difference_type n);
 			reference				operator*() const;
 			reference				operator[](difference_type n) const;
@@ -58,48 +57,20 @@ namespace ft
 		private:
 
 			value_type				*_ptr;
-	};
 
-	// Const iterator class for ft::vector ===========================================
-	template <class T>
-	class const_vectorIterator : public iterator<random_access_iterator_tag, T>
-	{
-		public:
+ 		friend
+		vectorIterator<T>
+		operator+(typename vectorIterator<T>::difference_type n, const vectorIterator<T>& it)
+		{
+			return (it + n);
+		}
 
-			typedef iterator<bidirectional_iterator_tag, T>	Base;
-			typedef typename Base::value_type				value_type;
-			typedef typename Base::difference_type			difference_type;
-			typedef typename Base::pointer					pointer;
-			typedef typename Base::reference				reference;
-
-			// constructors
-			const_vectorIterator();									// default
-			const_vectorIterator(value_type *ptr);					// from pointer
-			const_vectorIterator(const const_vectorIterator &rhs);	// copy
-
-			// operator overloads
-			const_vectorIterator&	operator=(const const_vectorIterator& rhs);
-			const_vectorIterator&	operator++();
-			const_vectorIterator	operator++(int n);
-			const_vectorIterator	operator+(difference_type n) const;
-			const_vectorIterator&	operator+=(difference_type n);
-			const_vectorIterator&	operator--();
-			const_vectorIterator	operator--(int n);
-			const_vectorIterator	operator-(difference_type n) const;
-			const_vectorIterator&	operator-=(difference_type n);
-			reference				operator*() const;
-			reference				operator[](difference_type n) const;
-			pointer					operator->() const;
-			bool					operator==(const const_vectorIterator& rhs) const;
-			bool					operator!=(const const_vectorIterator& rhs) const;
-			bool					operator<(const const_vectorIterator& rhs) const;
-			bool					operator<=(const const_vectorIterator& rhs) const;
-			bool					operator>(const const_vectorIterator& rhs) const;
-			bool					operator>=(const const_vectorIterator& rhs) const;
-
-		private:
-
-			value_type				*_ptr;
+		friend
+		typename vectorIterator<T>::difference_type
+		operator-(const vectorIterator<T>& lhs, const vectorIterator<T>& rhs)
+		{
+			return (lhs._ptr - rhs._ptr);
+		}
 	};
 }
 

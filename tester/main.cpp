@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 00:16:07 by user42            #+#    #+#             */
-/*   Updated: 2021/07/09 02:05:48 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/09/03 01:58:53 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 #include <stack>
 
 #include "test_stack.hpp"
+#include "test_vector.hpp"
 
+#define CHARSEP "$ "
 
 #if defined(TESTER)
 
@@ -33,7 +35,7 @@ int main()
 	std::ofstream	output(filename.append(".out").c_str());
 	std::ofstream	time(filename.append(".time").c_str());
 
-	test_vector<CONTAINER::vector>(output, time);
+	vector::test<CONTAINER::vector>(output, time);
 	//test_map<CONTAINER::map>(output, time);
 	stack::test<CONTAINER::stack>(output, time);
 
@@ -80,22 +82,22 @@ int	main()
 		size_t		ret;
 
 		// read a line from output files
-		std::getline(files[OUTPUT][FT], ft);
-		std::getline(files[OUTPUT][STL], stl);
+		std::getline(files[OUTPUT][FT], str[OUTPUT][FT]);
+		std::getline(files[OUTPUT][STL], str[OUTPUT][STL]);
 
-		if ((ret = stl.find("= ", 0)) != std::string::npos) // character '=' is present
+		if ((ret = str[OUTPUT][STL].find(CHARSEP, 0)) != std::string::npos) // character '=' is present
 		{
 			// read a line from output files
-			std::getline(files[TIME][FT], ft_time);
-			std::getline(files[TIME][STL], stl_time);
+			std::getline(files[TIME][FT], str[TIME][FT]);
+			std::getline(files[TIME][STL], str[TIME][STL]);
 
 			if (ret == 0) // only one '=' means it is a function name
-				print_function_name(stl, files[TIME]);
+				print_function_name(str[OUTPUT][STL], files[TIME]);
 			else // more means it's a container
-				print_container_name(stl);
+				print_container_name(str[OUTPUT][STL]);
 		}
 		else // no '=' means it's the result of a test
-			print_result(ft, stl);
+			print_result(str[OUTPUT][FT], str[OUTPUT][STL]);
 	}
 
 	// close files

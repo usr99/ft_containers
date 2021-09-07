@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 13:38:32 by mamartin          #+#    #+#             */
-/*   Updated: 2021/07/09 02:08:33 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/09/02 19:09:05 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 # define UNDER_CNTR std::deque
 #endif
 
-
-
 namespace stack
 {
 	template <template <class U, class container = UNDER_CNTR<U> > class T>
@@ -34,8 +32,8 @@ namespace stack
 		UNDER_CNTR<int>			default_cntr((size_t)52, 100);
 		std::vector<int>		myvector(25, 200);
 
-		output << "= default constructor" << std::endl;
-		time << "= default constructor" << std::endl;
+		output << "$ default constructor" << std::endl;
+		time << "$ default constructor" << std::endl;
 
 		// empty stack (default container)
 		gettimeofday(&tv, NULL);
@@ -98,8 +96,8 @@ namespace stack
 		T<int, std::vector<int> >	stack(myvector);
 		T<char>						empty;
 
-		output << std::endl << "= empty()" << std::endl;
-		time << std::endl << "= empty()" << std::endl;
+		output << std::endl << "$ empty()" << std::endl;
+		time << std::endl << "$ empty()" << std::endl;
 
 		while (stack.size())
 		{
@@ -139,8 +137,8 @@ namespace stack
 		ft::vector<long>			empty_vect;
 		T<long>						empty_stack(empty_vect);
 
-		output << std::endl << "= size()" << std::endl;
-		time << std::endl << "= size()" << std::endl;
+		output << std::endl << "$ size()" << std::endl;
+		time << std::endl << "$ size()" << std::endl;
 
 		gettimeofday(&tv, NULL);
 		size = stack.size();
@@ -178,8 +176,8 @@ namespace stack
 		T<std::string>			stack(container);
 		std::string				tmp;
 		
-		output << std::endl << "= top()" << std::endl;
-		time << std::endl << "= top()" << std::endl;
+		output << std::endl << "$ top()" << std::endl;
+		time << std::endl << "$ top()" << std::endl;
 
 		gettimeofday(&tv, NULL);
 		tmp = stack.top(); // str
@@ -209,8 +207,8 @@ namespace stack
 		struct timeval	tv;
 		T<long>			stack;
 
-		output << std::endl << "= push()" << std::endl;
-		time << std::endl << "= push()" << std::endl;
+		output << std::endl << "$ push()" << std::endl;
+		time << std::endl << "$ push()" << std::endl;
 
 		output << stack.size() << std::endl;
 		gettimeofday(&tv, NULL);
@@ -240,10 +238,11 @@ namespace stack
 		UNDER_CNTR<long>	cntr(tab, tab + 3);
 		T<long>				stack(cntr);
 
-		output << std::endl << "= pop()" << std::endl;
-		time << std::endl << "= pop()" << std::endl;
+		output << std::endl << "$ pop()" << std::endl;
+		time << std::endl << "$ pop()" << std::endl;
 
 		output << stack.size() << std::endl;
+		output << stack.top() << std::endl;
 		gettimeofday(&tv, NULL);
 		stack.pop();
 		print_exec_tm(time, tv);
@@ -259,7 +258,6 @@ namespace stack
 		gettimeofday(&tv, NULL);
 		stack.pop();
 		print_exec_tm(time, tv);
-		output << stack.top() << std::endl;
 		output << stack.size() << std::endl;
 	}
 
@@ -269,8 +267,8 @@ namespace stack
 		struct timeval		tv;
 		bool				ret[3][6];
 
-		output << std::endl << "= operators" << std::endl;
-		time << std::endl << "= operators" << std::endl;
+		output << std::endl << "$ operators" << std::endl;
+		time << std::endl << "$ operators" << std::endl;
 		output << std::boolalpha;
 		
 		// empty stacks tests
@@ -359,8 +357,8 @@ namespace stack
 	template <template <class U, class container = UNDER_CNTR<U> > class T>
 	void	test(std::ofstream& output, std::ofstream& time)
 	{
-		output << "=== STACK" << std::endl;
-		time << "=== STACK" << std::endl;
+		output << "$$$ STACK" << std::endl;
+		time << "$$$ STACK" << std::endl;
 		constructor<T>(output, time);
 		empty<T>(output, time);
 		size<T>(output, time);
