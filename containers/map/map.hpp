@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 02:44:47 by mamartin          #+#    #+#             */
-/*   Updated: 2021/09/10 19:59:26 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/09/11 01:35:30 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,10 @@ namespace ft
 				const allocator_type &alloc = allocator_type())
 			: _root(NULL), _size(0), _key_comp(comp), _alloc(alloc)
 			{
+				_end = _create_node(btree()); // create node
+				_end->depth = 0;
+				_begin = _end;
+
 				insert(first, last);
 			}
 
@@ -83,6 +87,10 @@ namespace ft
 			map(const map &x) :
 				_root(NULL), _size(0), _key_comp(x._key_comp), _alloc(x._alloc)
 			{
+				_end = _create_node(btree()); // create node
+				_end->depth = 0;
+				_begin = _end;
+
 				*this = x;
 			}
 
@@ -307,6 +315,9 @@ namespace ft
 
 			void clear()
 			{
+				if (empty())
+					return ;
+
 				_begin->left = NULL;
 				_end->parent->right = NULL;
 
