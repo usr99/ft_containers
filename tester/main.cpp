@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 00:16:07 by user42            #+#    #+#             */
-/*   Updated: 2021/09/03 01:58:53 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/09/10 16:28:41 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 #include "test_stack.hpp"
 #include "test_vector.hpp"
+#include "test_map.hpp"
 
 #define CHARSEP "$ "
 
@@ -36,7 +37,7 @@ int main()
 	std::ofstream	time(filename.append(".time").c_str());
 
 	vector::test<CONTAINER::vector>(output, time);
-	//test_map<CONTAINER::map>(output, time);
+	map::test<CONTAINER::map>(output, time);
 	stack::test<CONTAINER::stack>(output, time);
 
 	output.close();

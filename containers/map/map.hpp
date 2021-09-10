@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 02:44:47 by mamartin          #+#    #+#             */
-/*   Updated: 2021/09/08 18:58:50 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/09/10 19:59:26 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,12 @@ namespace ft
 
 			// range constructor
 			template <class InputIterator>
-			map(InputIterator first, InputIterator last, const key_compare &comp = key_compare(), const allocator_type &alloc = allocator_type()) :
-				_root(NULL), _size(0), _key_comp(comp), _alloc(alloc)
+			map(
+				InputIterator first,
+				typename enable_if<is_input_iterator<typename iterator_traits<InputIterator>::iterator_category>::value, InputIterator>::type last,
+				const key_compare &comp = key_compare(),
+				const allocator_type &alloc = allocator_type())
+			: _root(NULL), _size(0), _key_comp(comp), _alloc(alloc)
 			{
 				insert(first, last);
 			}
@@ -79,7 +83,7 @@ namespace ft
 			map(const map &x) :
 				_root(NULL), _size(0), _key_comp(x._key_comp), _alloc(x._alloc)
 			{
-				insert(x.begin(), x.end());
+				*this = x;
 			}
 
 			// destructor
@@ -94,7 +98,7 @@ namespace ft
 			{
 				clear();
 				insert(x.begin(), x.end());
-
+				return (*this);
 			}
 
 			iterator begin()
@@ -169,7 +173,7 @@ namespace ft
 					_begin = _root;
 					_begin->left = _end;
 					_size++;
-					return (make_pair(iterator(_root), true));
+					return (ft::make_pair(iterator(_root), true));
 				}
 				
 				pair<iterator, bool> ret = _insert(_root, val); // find where to insert

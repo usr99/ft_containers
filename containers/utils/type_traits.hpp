@@ -6,12 +6,14 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/24 14:50:03 by mamartin          #+#    #+#             */
-/*   Updated: 2021/07/24 17:49:50 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/09/09 17:56:27 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPE_TRAITS_HPP
 # define TYPE_TRAITS_HPP
+
+# include "iterator.hpp"
 
 namespace ft
 {
@@ -45,6 +47,14 @@ namespace ft
 	template <> struct is_integral<unsigned int> :				public true_type {};
 	template <> struct is_integral<unsigned long int> :			public true_type {};
 	template <> struct is_integral<unsigned long long int> :	public true_type {};
+
+	template <class T>
+	struct is_input_iterator :											public false_type {};
+	
+	template <> struct is_input_iterator<input_iterator_tag> :			public true_type {};
+	template <> struct is_input_iterator<forward_iterator_tag> :		public true_type {};
+	template <> struct is_input_iterator<bidirectional_iterator_tag> :	public true_type {};
+	template <> struct is_input_iterator<random_access_iterator_tag> :	public true_type {};
 
 	template <bool Cond, class T = void>
 	struct enable_if {};

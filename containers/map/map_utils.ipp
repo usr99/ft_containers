@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 15:48:16 by mamartin          #+#    #+#             */
-/*   Updated: 2021/09/08 18:43:50 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/09/10 16:36:35 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ namespace ft
 			else
 			{
 				root->left = _create_node(btree(root, val)); // create node
-				ret = make_pair(iterator(root->left), true);
+				ret = ft::make_pair(iterator(root->left), true);
 			}
 			if (!_is_balanced(root))
 			{
@@ -53,7 +53,7 @@ namespace ft
 			else
 			{
 				root->right = _create_node(btree(root, val)); // create node
-				ret = make_pair(iterator(root->right), true);
+				ret = ft::make_pair(iterator(root->right), true);
 			}
 			if (!_is_balanced(root))
 			{
@@ -64,7 +64,7 @@ namespace ft
 			}
 		}
 		else
-			return (make_pair(iterator(root), false));
+			return (ft::make_pair(iterator(root), false));
 
 		return (ret);
 	}
