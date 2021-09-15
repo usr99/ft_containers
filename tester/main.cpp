@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/06 00:16:07 by user42            #+#    #+#             */
-/*   Updated: 2021/09/10 16:28:41 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/09/14 22:35:23 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <stack>
+#include <map>
 
 #include "test_stack.hpp"
 #include "test_vector.hpp"

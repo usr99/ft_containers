@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 02:44:47 by mamartin          #+#    #+#             */
-/*   Updated: 2021/09/11 01:35:30 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/09/14 22:21:12 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ namespace ft
 
 			mapped_type& operator[](const key_type& k)
 			{
-				pair<iterator, bool> ret = insert(make_pair(k, mapped_type()));
+				pair<iterator, bool> ret = insert(ft::make_pair(k, mapped_type()));
 
 				return (ret.first->second);
 			}
@@ -221,7 +221,7 @@ namespace ft
 					return (insert(val).first);
 
 				if (_end->parent->right != _end) // replace end if overwrited
-					_append_end_node(ret.first.get_node());
+					_append_end_node(ret.get_node());
 				else if (_begin->left != _end) // if val < _begin->data
 				{
 					_begin = _begin->left;
@@ -237,14 +237,17 @@ namespace ft
 				while (first != last)
 				{
 					insert(*first);
-					++first;
+					first++;
 				}
 			}
 
     		void erase(iterator position)
 			{
 				if (_size == 1)
+				{
 					clear();
+					return ;
+				}
 				else if (position == begin()) // move _begin pointer
 				{
 					_begin = (++position).get_node();
@@ -284,33 +287,38 @@ namespace ft
 
 			void swap(map& x)
 			{
-				void	*tmp;
+				avl_tree<value_type>	*node;
+				size_type				sz;
+				key_compare				cmp;
+				allocator_type			allocator;
 
 				// swap trees
-				tmp = _root; // root
+				node = _root; // root
 				_root = x._root;
-				x._root = tmp;
-				tmp = _begin; // pointer to smallest element
+				x._root = node;
+
+				node = _begin; // pointer to smallest element
 				_begin = x._begin;
-				x._begin = tmp;
-				tmp = _end; // pointer to after-the-end node
+				x._begin = node;
+
+				node = _end; // pointer to after-the-end node
 				_end = x._end;
-				x._end = tmp;
+				x._end = node;
 
 				// swap sizes
-				tmp = &_size;
+				sz = _size;
 				_size = x._size;
-				x._size = *static_cast<size_type*>(tmp);
+				x._size = sz;
 
 				// swap comparison object
-				tmp = &_key_comp;
+				cmp = _key_comp;
 				_key_comp = x._key_comp;
-				x._key_comp = *static_cast<key_compare*>(tmp);
+				x._key_comp = cmp;
 
 				// swap allocators
-				tmp = &_alloc;
+				allocator = _alloc;
 				_alloc = x._alloc;
-				x._alloc = *static_cast<allocator_type*>(tmp);
+				x._alloc = allocator;
 			}
 
 			void clear()
@@ -405,14 +413,12 @@ namespace ft
 
 			pair<iterator, iterator> equal_range(const key_type& k)
 			{
-				iterator it = lower_bound(k);
-				return (make_pair(it, it));
+				return (ft::make_pair(lower_bound(k), upper_bound(k)));
 			}
 
 			pair<const_iterator, const_iterator> equal_range(const key_type& k) const
 			{
-				const_iterator it = lower_bound(k);
-				return (make_pair(it, it));
+				return (ft::make_pair(lower_bound(k), upper_bound(k)));
 			}
 
 			allocator_type get_allocator() const

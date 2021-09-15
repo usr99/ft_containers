@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 23:42:44 by mamartin          #+#    #+#             */
-/*   Updated: 2021/09/11 01:34:47 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/09/13 22:02:05 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ namespace ft
 	{
 		if (!_ptr->right)
 		{
-			if (_ptr->parent->right == _ptr)
+			while (_ptr->parent->right == _ptr)
 				_ptr = _ptr->parent;
 			_ptr = _ptr->parent;
 		}
@@ -78,7 +78,7 @@ namespace ft
 	{
 		if (!_ptr->left)
 		{
-			if (_ptr->parent->left == _ptr)
+			while (_ptr->parent->left == _ptr)
 				_ptr = _ptr->parent;
 			_ptr = _ptr->parent;
 		}
@@ -164,7 +164,7 @@ namespace ft
 	{
 		if (!_ptr->right)
 		{
-			if (_ptr->parent->right == _ptr)
+			while (_ptr->parent->right == _ptr)
 				_ptr = _ptr->parent;
 			_ptr = _ptr->parent;
 		}
@@ -194,7 +194,7 @@ namespace ft
 	{
 		if (!_ptr->left)
 		{
-			if (_ptr->parent->left == _ptr)
+			while (_ptr->parent->left == _ptr)
 				_ptr = _ptr->parent;
 			_ptr = _ptr->parent;
 		}

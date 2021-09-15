@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 15:48:16 by mamartin          #+#    #+#             */
-/*   Updated: 2021/09/10 16:36:35 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/09/14 16:54:19 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,9 @@ namespace ft
 	{
 		btree *pivot = root->right;
 
+		if (!pivot)
+			return (root);
+
 		root->right = pivot->left;
 		if (pivot->left)
 			pivot->left->parent = root;
@@ -124,6 +127,7 @@ namespace ft
 			_root = pivot;
 
 		root->balance_factor();
+		pivot->balance_factor();
 		root = pivot;
 		return (root);
 	}
@@ -133,6 +137,9 @@ namespace ft
 	map<Key, T, Compare, Alloc>::_rotate_right(btree *root)
 	{
 		btree *pivot = root->left;
+
+		if (!pivot)
+			return (root);
 
 		root->left = pivot->right;
 		if (pivot->right)
@@ -153,6 +160,7 @@ namespace ft
 			_root = pivot;
 
 		root->balance_factor();
+		pivot->balance_factor();
 		root = pivot;
 		return (root);
 	}
@@ -216,7 +224,8 @@ namespace ft
 
 				// infix node takes node's children
 				child->left = node->left;
-				node->left->parent = child;
+				if (node->left != _end)
+					node->left->parent = child;
 				if (child->right && child->parent != node)
 				{
 					child->parent->left = child->right;
@@ -239,7 +248,8 @@ namespace ft
 
 				// infix node takes node's children
 				child->right = node->right;
-				node->right->parent = child;
+				if (node->right != _end)
+					node->right->parent = child;
 
 				if (child->left && child->parent != node)
 				{
@@ -276,6 +286,8 @@ namespace ft
 
 			// node's parent now points to child
 			_replace_node(node, child);
+			if (child != _end)
+				child->parent = node->parent;
 
 			node = node->parent; // save starting node for later rebalancing
 		}

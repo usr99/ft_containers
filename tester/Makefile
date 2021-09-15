@@ -1,6 +1,6 @@
 FT_TARGET	= ft_tester
 STL_TARGET	= stl_tester
-CFLAGS		= -Wall -Wextra -Werror --std=c++98 -g
+CFLAGS		= -Wall -Wextra -Werror --std=c++98
 FT			= -D FT
 TESTER		= -D TESTER
 CHECKER		= -D CHECKER
@@ -21,7 +21,10 @@ check: main.cpp
 clean:
 
 	rm -f *.out *.time
+
+fclean: clean
+
 	rm -f ${FT_TARGET} ${STL_TARGET}
 	rm -f ./checker
 
-re: clean all
+re: fclean all
