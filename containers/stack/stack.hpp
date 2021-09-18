@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/05 23:59:21 by user42            #+#    #+#             */
-/*   Updated: 2021/07/01 13:45:06 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/09/17 08:55:13 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ namespace ft
 			void				push(const value_type &val);
 			void				pop();
 
-		private:
+		protected:
 
 			container_type 		_cntr;
 

@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 17:56:22 by mamartin          #+#    #+#             */
-/*   Updated: 2021/07/22 19:31:41 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/09/17 22:30:16 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ namespace ft
 			vectorIterator();							// default
 			vectorIterator(value_type *ptr);			// from pointer
 			vectorIterator(const vectorIterator &rhs);	// copy
+
+			operator vectorIterator<const T>() const { return vectorIterator<const T>(_ptr); }
 
 			// operator overloads
 			vectorIterator&			operator=(const vectorIterator& rhs);

@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 23:37:43 by mamartin          #+#    #+#             */
-/*   Updated: 2021/09/11 01:33:47 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/09/17 22:34:23 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ namespace ft
 			mapIterator();							// default
 			mapIterator(node *ptr);					// from pointer
 			mapIterator(const mapIterator &rhs);	// copy
+
+			operator mapIterator<const T>() const { return mapIterator<const T>(_ptr); }
 
 			node* 			get_node() const;
 
