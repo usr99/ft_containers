@@ -1,6 +1,6 @@
 FT_TARGET	= ft_tester
 STL_TARGET	= stl_tester
-CFLAGS		= -Wall -Wextra -Werror --std=c++98
+CFLAGS		= -Wall -Wextra -Werror --std=c++98 -g
 FT			= -D FT
 TESTER		= -D TESTER
 CHECKER		= -D CHECKER

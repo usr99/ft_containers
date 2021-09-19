@@ -6,7 +6,7 @@
 /*   By: mamartin <mamartin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/09 02:44:47 by mamartin          #+#    #+#             */
-/*   Updated: 2021/09/14 22:21:12 by mamartin         ###   ########.fr       */
+/*   Updated: 2021/09/19 18:49:47 by mamartin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -369,46 +369,44 @@ namespace ft
 
 			iterator lower_bound(const key_type& k)
 			{
-				iterator it = begin();
+				avl_tree<value_type>	*node	= _root;
+				avl_tree<value_type>	*tmp	= NULL;
 
-				while (it != end() && _key_comp(it->first, k))
-					++it;
-				return (it);
+				while (node && node != _end)
+				{
+					if (_key_comp(k, node->data.first)) // k < node
+					{
+						tmp = node;
+						node = node->left;
+					}
+					else if (_key_comp(node->data.first, k)) // k > node
+						node = node->right;
+					else
+						return (iterator(node));
+				}
+				if (tmp)
+					return (iterator(tmp));
+				else
+					return (end());
 			}
 
 			const_iterator lower_bound(const key_type& k) const
 			{
-				const_iterator it = begin();
-
-				while (it != end() && _key_comp(it->first, k))
-					++it;
-				return (it);
+				return (lower_bound(k));
 			}
 
 			iterator upper_bound(const key_type& k)
 			{
-				iterator it = begin();
+				iterator it = lower_bound(k);
 
-				while (it != end() && _key_comp(it->first, k))
-					++it;
-
-				if (it == end() || _key_comp(k, it->first))
-					return (it);
-
-				return (++it);
+				if (it != end() && it->first == k)
+					it++;
+				return (it);
 			}
 
 			const_iterator upper_bound(const key_type& k) const
 			{
-				const_iterator it = begin();
-
-				while (it != end() && _key_comp(it->first, k))
-					++it;
-
-				if (it == end() || _key_comp(k, it->first))
-					return (it);
-
-				return (++it);
+				return (upper_bound(k));
 			}
 
 			pair<iterator, iterator> equal_range(const key_type& k)
